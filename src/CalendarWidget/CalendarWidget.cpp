@@ -20,17 +20,30 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     int counter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
     int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth());
 
-    cout << numberOfDays;
+    QHeaderView *verticalHeader = this->verticalHeader();
+    verticalHeader->setVisible(false);
+
+    bool buttonDisabled;
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             if (counter == 0) counter++;
-            if (counter > numberOfDays) counter = 1;
 
             int label = counter;
-            if (counter < 0) label = numberOfDays + counter;
+            if (counter < 0) {
+                label = numberOfDays + counter;
+                buttonDisabled = true;
+            } else {
+                if (counter > numberOfDays) {
+                    label = counter - numberOfDays;
+                    buttonDisabled = true;
+                } else {
+                    buttonDisabled = false;
+                }
+            }
 
             auto *button = new QPushButton(QString("%1").arg(label));
             button->setMinimumSize(120, 120);
+            button->setDisabled(buttonDisabled);
 
             if (currentDayOfMonth == counter) {
                 QPalette pal = button->palette();
@@ -41,15 +54,12 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
             }
 
             this->setCellWidget(row, col, button);
-
-            this->resizeColumnsToContents();
-            this->resizeRowsToContents();
-
-            this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-            this->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
-
             counter++;
         }
     }
-}
 
+    this->resizeColumnsToContents();
+    this->resizeRowsToContents();
+    this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+}
