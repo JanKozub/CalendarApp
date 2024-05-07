@@ -10,14 +10,13 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     CalendarService calendarService;
-
     QMainWindow mainWindow;
-    mainWindow.setGeometry(100, 100, 600, 400);
-    mainWindow.setWindowTitle("Resizable Table");
+    mainWindow.setWindowTitle("Calendar App");
 
     CalendarWidget calendarWidget(&mainWindow);
-    mainWindow.setCentralWidget(&calendarWidget);
 
+    mainWindow.setCentralWidget(&calendarWidget);
+    mainWindow.resize(calendarWidget.size());
     mainWindow.show();
     return QApplication::exec();
 }

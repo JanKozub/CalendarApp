@@ -9,6 +9,13 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
 
     CalendarService calendarService;
 
+    QStringList headers;
+    for (int i = 0; i < columns; ++i) {
+        headers << QString(daysNames[i]);
+    }
+    this->setHorizontalHeaderLabels(headers);
+    this->setMinimumSize(120*columns,120*rows);
+
     int currentDayOfMonth = calendarService.getCurrentDayOfMonth();
     int counter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
     int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth());
