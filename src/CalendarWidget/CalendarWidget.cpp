@@ -1,9 +1,8 @@
 #include "CalendarWidget.h"
 
-const char *daysNames[] = {"Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota", "Niedziela"};
+const char *daysNames[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
 CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
-    this->setGeometry(50, 50, 500, 300);
     this->setColumnCount(columns);
     this->setRowCount(rows);
 
@@ -14,27 +13,27 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
         headers << QString(daysNames[i]);
     }
     this->setHorizontalHeaderLabels(headers);
-    this->setMinimumSize(120*columns,120*rows);
+    this->setMinimumSize(140 * columns, 140 * rows);
 
     int currentDayOfMonth = calendarService.getCurrentDayOfMonth();
-    int counter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
+    int dayCounter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
     int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth());
 
-    QHeaderView *verticalHeader = this->verticalHeader();
+    QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
     bool buttonDisabled;
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
-            if (counter == 0) counter++;
+            if (dayCounter == 0) dayCounter++;
 
-            int label = counter;
-            if (counter < 0) {
-                label = numberOfDays + counter;
+            int label = dayCounter;
+            if (dayCounter < 0) {
+                label = numberOfDays + dayCounter;
                 buttonDisabled = true;
             } else {
-                if (counter > numberOfDays) {
-                    label = counter - numberOfDays;
+                if (dayCounter > numberOfDays) {
+                    label = dayCounter - numberOfDays;
                     buttonDisabled = true;
                 } else {
                     buttonDisabled = false;
@@ -44,17 +43,15 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
             auto *button = new QPushButton(QString("%1").arg(label));
             button->setMinimumSize(120, 120);
             button->setDisabled(buttonDisabled);
+            button->setCursor(Qt::PointingHandCursor);
+            connect(button, &QPushButton::clicked, this, &CalendarWidget::onButtonClick);
 
-            if (currentDayOfMonth == counter) {
-                QPalette pal = button->palette();
-                pal.setColor(QPalette::Button, QColor(Qt::blue));
-                button->setAutoFillBackground(true);
-                button->setPalette(pal);
-                button->update();
+            if (currentDayOfMonth == dayCounter) {
+                button->setObjectName("today");
             }
 
             this->setCellWidget(row, col, button);
-            counter++;
+            dayCounter++;
         }
     }
 
@@ -62,4 +59,9 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     this->resizeRowsToContents();
     this->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
     this->verticalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    this->horizontalHeader()->setSectionsClickable(false);
+}
+
+void CalendarWidget::onButtonClick() {
+    cout << "clicked";
 }

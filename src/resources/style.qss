@@ -1,0 +1,23 @@
+QTableWidget {
+    position: relative;
+    top: 100px;
+}
+
+QPushButton:pressed {
+    padding-left : 2px;
+    padding-top : 2px;
+    border-radius: 4px;
+}
+
+#today {
+    border: 2px solid #DC0922;
+}
+
+#top-button {
+    background-color: #C0C3C3;
+}
+
+QHeaderView::section {
+    background-color: #585859;
+}
+

@@ -4,12 +4,14 @@
 #include <QTableWidget>
 #include <QPushButton>
 #include <QHeaderView>
+#include <QBoxLayout>
 #include "../CalendarService/CalendarService.h"
 
 class CalendarWidget : public QTableWidget {
 private:
     int columns = 7;
     int rows = 5;
+    void onButtonClick();
 public:
     explicit CalendarWidget(QWidget *parent);
 };
