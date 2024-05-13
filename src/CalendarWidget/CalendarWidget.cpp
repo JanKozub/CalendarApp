@@ -63,5 +63,5 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
 }
 
 void CalendarWidget::onButtonClick() {
-    cout << "clicked";
+   NewEventDialog dialog;
 }

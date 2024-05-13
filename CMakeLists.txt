@@ -23,7 +23,11 @@ add_executable(CalendarApp src/main.cpp
         src/CalendarWidget/CalendarWidget.cpp
         src/CalendarWidget/CalendarWidget.h
         src/TopBar/TopBar.cpp
-        src/TopBar/TopBar.h)
+        src/TopBar/TopBar.h
+        src/NewEventDialog/NewEventDialog.cpp
+        src/NewEventDialog/NewEventDialog.h
+        src/Event/Event.cpp
+        src/Event/Event.h)
 
 target_link_libraries(CalendarApp
         Qt::Core

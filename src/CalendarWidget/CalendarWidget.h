@@ -6,6 +6,7 @@
 #include <QHeaderView>
 #include <QBoxLayout>
 #include "../CalendarService/CalendarService.h"
+#include "../NewEventDialog/NewEventDialog.h"
 
 class CalendarWidget : public QTableWidget {
 private:
