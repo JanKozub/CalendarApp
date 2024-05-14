@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     mainWindow.setStyleSheet("background-color: #1A191C;");
 
     QVBoxLayout layout(&mainWindow);
-    TopBar topBar(&mainWindow);
+    TopBar topBar(calendarService);
     CalendarWidget calendarWidget(&mainWindow);
     layout.addLayout(&topBar);
     layout.addWidget(&calendarWidget);

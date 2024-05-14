@@ -17,7 +17,7 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
 
     int currentDayOfMonth = calendarService.getCurrentDayOfMonth();
     int dayCounter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
-    int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth());
+    int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth() + 1);
 
     QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);

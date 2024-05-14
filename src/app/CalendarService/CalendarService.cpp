@@ -1,13 +1,12 @@
 #include "CalendarService.h"
 
 CalendarService::CalendarService() {
-    currentTimestamp = system_clock::now();
-    time_now = system_clock::to_time_t(currentTimestamp);
+    initTimestamp = system_clock::now();
+    time_now = system_clock::to_time_t(initTimestamp);
     local_time = localtime(&time_now);
-}
 
-system_clock::time_point &CalendarService::getCurrentTimestamp() {
-    return currentTimestamp;
+    currentMonth = local_time->tm_mon;
+    currentYear = 1900 + local_time->tm_year;
 }
 
 int CalendarService::getFirstDayOfMonthDayOfWeek() {
@@ -19,14 +18,6 @@ int CalendarService::getFirstDayOfMonthDayOfWeek() {
 }
 
 int CalendarService::getCurrentDayOfMonth() {
-    return local_time->tm_mday;
-}
-
-int CalendarService::getCurrentDayOfWeek() {
-    return local_time->tm_wday;
-}
-
-int CalendarService::getCurrentMonth() {
     return local_time->tm_mday;
 }
 
@@ -48,4 +39,20 @@ int CalendarService::getNumberOfDaysInMonth(int monthNumber) {
     } else {
         return 31;
     }
+}
+
+void CalendarService::setCurrentMonth(int month) {
+    currentMonth = month;
+}
+
+int CalendarService::getCurrentMonth() const {
+    return currentMonth;
+}
+
+void CalendarService::setCurrentYear(int year) {
+    currentYear = year;
+}
+
+int CalendarService::getCurrentYear() const {
+    return currentYear;
 }
