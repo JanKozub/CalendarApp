@@ -20,4 +20,3 @@ QPushButton:pressed {
 QHeaderView::section {
     background-color: #585859;
 }
-

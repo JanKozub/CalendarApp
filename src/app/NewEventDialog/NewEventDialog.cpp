@@ -2,18 +2,18 @@
 
 
 NewEventDialog::NewEventDialog() {
+    QFrame frame;
     QVBoxLayout layout;
+    frame.setLayout(&layout);
+    frame.setObjectName("event-dialog");
+    layout.setAlignment(Qt::AlignCenter);
 
     QLabel topLabel("New Event");
     topLabel.setAlignment(Qt::AlignCenter);
     layout.addWidget(&topLabel);
-    layout.setAlignment(Qt::AlignCenter);
 
     QLabel messageLabel("Message:");
-    messageLabel.setAlignment(Qt::AlignRight);
     QLineEdit messageField;
-    messageField.setMaximumWidth(320);
-    messageField.setStyleSheet("margin-right: 75px;");
     QHBoxLayout messageTextField;
     messageTextField.addWidget(&messageLabel);
     messageTextField.addWidget(&messageField);
@@ -24,7 +24,7 @@ NewEventDialog::NewEventDialog() {
     comboBox.addItem("Low");
     comboBox.addItem("Medium");
     comboBox.addItem("High");
-    comboBox.setMaximumWidth(300);
+    comboBox.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     QHBoxLayout priorityDropList;
     priorityDropList.addWidget(&priorityLabel);
     priorityDropList.addWidget(&comboBox);
@@ -33,7 +33,9 @@ NewEventDialog::NewEventDialog() {
     auto *button = new QPushButton("Add Event");
     layout.addWidget(button);
 
-    this->setLayout(&layout);
-    this->resize(500,500);
+    QVBoxLayout overlay;
+    overlay.addWidget(&frame);
+    this->setLayout(&overlay);
+    this->setFixedSize(400,180);
     this->exec();
 }

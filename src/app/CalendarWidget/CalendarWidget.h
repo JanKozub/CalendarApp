@@ -12,7 +12,7 @@ class CalendarWidget : public QTableWidget {
 private:
     int columns = 7;
     int rows = 5;
-    void onButtonClick();
+    static void onButtonClick();
 public:
     explicit CalendarWidget(QWidget *parent);
 };
