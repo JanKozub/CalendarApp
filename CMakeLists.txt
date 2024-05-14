@@ -17,17 +17,17 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(CalendarApp src/main.cpp
-        src/CalendarService/CalendarService.cpp
-        src/CalendarService/CalendarService.h
-        src/CalendarWidget/CalendarWidget.cpp
-        src/CalendarWidget/CalendarWidget.h
-        src/TopBar/TopBar.cpp
-        src/TopBar/TopBar.h
-        src/NewEventDialog/NewEventDialog.cpp
-        src/NewEventDialog/NewEventDialog.h
-        src/Event/Event.cpp
-        src/Event/Event.h)
+add_executable(CalendarApp src/app/main.cpp
+        src/app/CalendarService/CalendarService.cpp
+        src/app/CalendarService/CalendarService.h
+        src/app/CalendarWidget/CalendarWidget.cpp
+        src/app/CalendarWidget/CalendarWidget.h
+        src/app/TopBar/TopBar.cpp
+        src/app/TopBar/TopBar.h
+        src/app/NewEventDialog/NewEventDialog.cpp
+        src/app/NewEventDialog/NewEventDialog.h
+        src/app/Event/Event.cpp
+        src/app/Event/Event.h)
 
 target_link_libraries(CalendarApp
         Qt::Core
