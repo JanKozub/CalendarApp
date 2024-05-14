@@ -6,8 +6,6 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     this->setColumnCount(columns);
     this->setRowCount(rows);
 
-    CalendarService calendarService;
-
     QStringList headers;
     for (int i = 0; i < columns; ++i) {
         headers << QString(daysNames[i]);
@@ -15,9 +13,11 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     this->setHorizontalHeaderLabels(headers);
     this->setMinimumSize(140 * columns, 140 * rows);
 
-    int currentDayOfMonth = calendarService.getCurrentDayOfMonth();
-    int dayCounter = 1 - calendarService.getFirstDayOfMonthDayOfWeek();
-    int numberOfDays = calendarService.getNumberOfDaysInMonth(calendarService.getCurrentMonth() + 1);
+    this->clearContents();
+}
+
+void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMonthDayOfWeek, int daysInMonth) {
+    int dayCounter = 1 - firstDayOfMonthDayOfWeek;
 
     QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
@@ -29,11 +29,11 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
 
             int label = dayCounter;
             if (dayCounter < 0) {
-                label = numberOfDays + dayCounter;
+                label = daysInMonth + dayCounter;
                 buttonDisabled = true;
             } else {
-                if (dayCounter > numberOfDays) {
-                    label = dayCounter - numberOfDays;
+                if (dayCounter > daysInMonth) {
+                    label = dayCounter - daysInMonth;
                     buttonDisabled = true;
                 } else {
                     buttonDisabled = false;

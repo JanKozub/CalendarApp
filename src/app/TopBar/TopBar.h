@@ -5,14 +5,16 @@
 #include "QPushButton"
 #include "QLabel"
 #include "../CalendarService/CalendarService.h"
+#include "../CalendarWidget/CalendarWidget.h"
 
 class TopBar : public QHBoxLayout{
 private:
-    CalendarService calendarService;
+    CalendarService *calendarService;
+    CalendarWidget *calendarWidget;
     void setMonth(int value, QLabel &monthLabel, QLabel &dateLabel);
 
 public:
-    explicit TopBar(CalendarService &calendarService);
+    explicit TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget);
 };
 
 #endif //CALENDARAPP_TOPBAR_H

@@ -15,6 +15,7 @@ private:
     static void onButtonClick();
 public:
     explicit CalendarWidget(QWidget *parent);
+    void setLayoutForMonth(int currentDayOfMonth, int firstDayOfMonthDayOfWeek, int daysInMonth);
 };
 
 

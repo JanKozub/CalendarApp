@@ -4,8 +4,9 @@ const char *months[] = {"January", "Febuary", "March", "April",
                         "May", "June", "July", "August",
                         "September", "October", "November", "December"};
 
-TopBar::TopBar(CalendarService &calendarService) {
+TopBar::TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget) {
     this->calendarService = calendarService;
+    this->calendarWidget = calendarWidget;
 
     auto *addEventButton = new QPushButton("Add Event");
     addEventButton->setStyleSheet("background-color: #C0C3C3;");
@@ -37,8 +38,8 @@ TopBar::TopBar(CalendarService &calendarService) {
 }
 
 void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
-    int month = calendarService.getCurrentMonth() + value;
-    int year = calendarService.getCurrentYear();
+    int month = calendarService->getCurrentMonth() + value;
+    int year = calendarService->getCurrentYear();
 
     if (month < 0) {
         month = 11;
@@ -47,11 +48,13 @@ void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
         month = 0;
         year++;
     }
-    calendarService.setCurrentMonth(month);
-    calendarService.setCurrentYear(year);
+    calendarService->setCurrentMonth(month);
+    calendarService->setCurrentYear(year);
 
-    int daysInMonth = calendarService.getNumberOfDaysInMonth(month);
-    monthLabel.setText(months[calendarService.getCurrentMonth()]);
+    int daysInMonth = calendarService->getNumberOfDaysInMonth(month);
+    monthLabel.setText(months[calendarService->getCurrentMonth()]);
     dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(year));
+
+    calendarWidget->setLayoutForMonth(calendarService->getCurrentDayOfMonth(), calendarService->getFirstDayOfMonthDayOfWeek(), daysInMonth);
 }
 
