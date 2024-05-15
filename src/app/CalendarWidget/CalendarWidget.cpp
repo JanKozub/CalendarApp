@@ -16,8 +16,8 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     this->clearContents();
 }
 
-void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMonthDayOfWeek, int daysInMonth) {
-    int dayCounter = 1 - firstDayOfMonthDayOfWeek;
+void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMonthDayOfWeek, int daysInMonth, int prevMonthDays) {
+    int dayCounter = firstDayOfMonthDayOfWeek * -1;
 
     QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
@@ -25,18 +25,19 @@ void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMont
     bool buttonDisabled;
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
-            if (dayCounter == 0) dayCounter++;
+            if (dayCounter == 0) dayCounter = 1;
 
-            int label = dayCounter;
+            int label;
             if (dayCounter < 0) {
-                label = daysInMonth + dayCounter;
+                label = prevMonthDays + dayCounter + 1;
                 buttonDisabled = true;
             } else {
-                if (dayCounter > daysInMonth) {
+                if (dayCounter <= daysInMonth) {
+                    label = dayCounter;
+                    buttonDisabled = false;
+                } else {
                     label = dayCounter - daysInMonth;
                     buttonDisabled = true;
-                } else {
-                    buttonDisabled = false;
                 }
             }
 
@@ -51,6 +52,7 @@ void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMont
             }
 
             this->setCellWidget(row, col, button);
+
             dayCounter++;
         }
     }

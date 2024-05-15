@@ -16,9 +16,9 @@ private:
     int currentYear;
 public:
     CalendarService();
-    int getFirstDayOfMonthDayOfWeek();
+    int getFirstDayOfMonthDayOfWeek() const;
     int getCurrentDayOfMonth();
-    int getNumberOfDaysInMonth(int monthNumber);
+    int getNumberOfDaysInMonth(int month) const;
 
     void setCurrentMonth(int month);
     int getCurrentMonth() const;

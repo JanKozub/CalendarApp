@@ -9,7 +9,7 @@ TopBar::TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget)
     this->calendarWidget = calendarWidget;
 
     auto *addEventButton = new QPushButton("Add Event");
-    addEventButton->setStyleSheet("background-color: #C0C3C3;");
+    addEventButton->setStyleSheet("background-color: #585859;");
     addEventButton->setFixedWidth(150);
     this->addWidget(addEventButton);
 
@@ -19,7 +19,7 @@ TopBar::TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget)
     this->addWidget(monthLabel);
 
     auto *prevWeek = new QPushButton("<");
-    prevWeek->setStyleSheet("background-color: #C0C3C3;");
+    prevWeek->setStyleSheet("background-color: #585859;");
     prevWeek->setFixedWidth(50);
     this->addStretch(1);
     connect(prevWeek, &QPushButton::clicked, this, [=]() { setMonth(-1, *monthLabel, *dateLabel); });
@@ -29,7 +29,7 @@ TopBar::TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget)
     this->addWidget(dateLabel);
 
     auto nextWeek = new QPushButton(">");
-    nextWeek->setStyleSheet("background-color: #C0C3C3;");
+    nextWeek->setStyleSheet("background-color: #585859;");
     nextWeek->setFixedWidth(50);
     connect(nextWeek, &QPushButton::clicked, this, [=]() { setMonth(1, *monthLabel, *dateLabel); });
     this->addWidget(nextWeek);
@@ -51,10 +51,15 @@ void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
     calendarService->setCurrentMonth(month);
     calendarService->setCurrentYear(year);
 
-    int daysInMonth = calendarService->getNumberOfDaysInMonth(month);
+    int daysInMonth = calendarService->getNumberOfDaysInMonth(calendarService->getCurrentMonth() + 1);
     monthLabel.setText(months[calendarService->getCurrentMonth()]);
     dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(year));
 
-    calendarWidget->setLayoutForMonth(calendarService->getCurrentDayOfMonth(), calendarService->getFirstDayOfMonthDayOfWeek(), daysInMonth);
+    int prevMonthDays = calendarService->getNumberOfDaysInMonth(calendarService->getCurrentMonth());
+
+    if (calendarService->getCurrentMonth() == 0)
+        prevMonthDays = 0;
+
+    calendarWidget->setLayoutForMonth(calendarService->getCurrentDayOfMonth(), calendarService->getFirstDayOfMonthDayOfWeek(), daysInMonth, prevMonthDays);
 }
 

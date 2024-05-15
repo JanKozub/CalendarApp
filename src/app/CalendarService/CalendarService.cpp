@@ -9,15 +9,20 @@ CalendarService::CalendarService() {
     currentYear = 1900 + local_time->tm_year;
 }
 
-int CalendarService::getFirstDayOfMonthDayOfWeek() {
-    tm* temp_local_time = localtime(&time_now);
-    temp_local_time->tm_mday = 1;
-    time_t first_day_of_month_time = mktime(temp_local_time);
-    tm *first_day_of_month_tm = localtime(&first_day_of_month_time);
-    return first_day_of_month_tm->tm_wday;
+int CalendarService::getFirstDayOfMonthDayOfWeek() const { //Returns 0-6 value(day of week of current date)
+    tm time = {};
+    time.tm_year = currentYear - 1900;
+    time.tm_mon = currentMonth;
+    time.tm_mday = 1;
+
+    time_t date = mktime(&time);
+    tm *dateTm = localtime(&date);
+
+    int day = dateTm->tm_wday;
+    return (day == 0) ? 6 : (day - 1);
 }
 
-int CalendarService::getCurrentDayOfMonth() {
+int CalendarService::getCurrentDayOfMonth() { //Returns current day of month
     return local_time->tm_mday;
 }
 
@@ -25,16 +30,14 @@ bool isLeapYear(int year) {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
-int CalendarService::getNumberOfDaysInMonth(int monthNumber) {
-    int currentYear = local_time->tm_year + 1900;
-
-    if (monthNumber == 2) {
+int CalendarService::getNumberOfDaysInMonth(int month) const { //Returns number of days in given month(1-12 format)
+    if (month == 2) {
         if (isLeapYear(currentYear)) {
             return 29;
         } else {
             return 28;
         }
-    } else if (monthNumber == 4 || monthNumber == 6 || monthNumber == 9 || monthNumber == 11) {
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
         return 30;
     } else {
         return 31;
