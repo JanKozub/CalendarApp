@@ -14,6 +14,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
+    EventService eventService("events.json");
     try {
         QFile file;
         QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/resources");
@@ -22,8 +23,7 @@ int main(int argc, char *argv[]) {
         QString stylesheet = QLatin1String(file.readAll());
         app.setStyleSheet(stylesheet);
 
-        EventService eventService("events.json");
-//        eventService.addEventToDatabase(Event(0, "test", Priority::LOW));
+        eventService.init();
     } catch(runtime_error er) {
         QDialog errorDialog;
         QLabel label("Loading database failed");
@@ -40,8 +40,8 @@ int main(int argc, char *argv[]) {
     mainWindow.setStyleSheet("background-color: #1A191C;");
 
     QVBoxLayout layout(&mainWindow);
-    CalendarWidget calendarWidget(&mainWindow);
-    TopBar topBar(&calendarService, &calendarWidget);
+    CalendarWidget calendarWidget(&mainWindow, &eventService);
+    TopBar topBar(&calendarService, &eventService, &calendarWidget);
     layout.addLayout(&topBar);
     layout.addWidget(&calendarWidget);
     mainWindow.setLayout(&layout);

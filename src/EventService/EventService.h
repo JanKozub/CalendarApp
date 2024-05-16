@@ -9,6 +9,7 @@
 #include <filesystem>
 
 using namespace std;
+using namespace nlohmann;
 namespace fs = std::filesystem;
 
 class EventService {
@@ -20,11 +21,11 @@ private:
 public:
     explicit EventService(string filename);
     vector<Event> *getEvents();
+    void init();
 
-    void addEventToDatabase(Event event);
-    void removeEventFromDatabase(Event event);
+    void addEventToDatabase(const Event& event);
+    void removeEventFromDatabase(Event *event);
     void loadEventsFromJson();
 };
-
 
 #endif //CALENDARAPP_EVENTSERVICE_H

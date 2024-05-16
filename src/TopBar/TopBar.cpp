@@ -4,15 +4,16 @@ const char *months[] = {"January", "Febuary", "March", "April",
                         "May", "June", "July", "August",
                         "September", "October", "November", "December"};
 
-TopBar::TopBar(CalendarService *cs, CalendarWidget *calendarWidget) {
+TopBar::TopBar(CalendarService *cs, EventService *es, CalendarWidget *cw) {
     this->calendarService = cs;
-    this->calendarWidget = calendarWidget;
+    this->eventService = es;
+    this->calendarWidget = cw;
 
     auto *addEventButton = new QPushButton("Add Event");
     addEventButton->setStyleSheet("background-color: #585859;");
     addEventButton->setFixedWidth(150);
     connect(addEventButton, &QPushButton::clicked, this,
-            [=]() { NewEventDialog dialog(1, cs->getDisplayedDate(), false); });
+            [=]() { NewEventDialog dialog(eventService, 1, cs->getDisplayedDate(), false); });
     this->addWidget(addEventButton);
 
     auto *monthLabel = new QLabel();

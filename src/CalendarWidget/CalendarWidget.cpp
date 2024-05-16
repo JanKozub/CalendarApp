@@ -2,7 +2,7 @@
 
 const char *daysNames[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
+CalendarWidget::CalendarWidget(QWidget *parent, EventService *es) : QTableWidget(parent), eventService(es) {
     this->setColumnCount(columns);
     this->setRowCount(rows);
 
@@ -69,5 +69,5 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
 }
 
 void CalendarWidget::onButtonClick(int dayOfMonth, tm *date) {
-    NewEventDialog dialog(dayOfMonth, date, true);
+    NewEventDialog dialog(eventService, dayOfMonth, date, true);
 }

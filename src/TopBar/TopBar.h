@@ -10,11 +10,11 @@
 class TopBar : public QHBoxLayout{
 private:
     CalendarService *calendarService;
+    EventService *eventService;
     CalendarWidget *calendarWidget;
     void setMonth(int value, QLabel &monthLabel, QLabel &dateLabel);
-
 public:
-    explicit TopBar(CalendarService *cs, CalendarWidget *calendarWidget);
+    explicit TopBar(CalendarService *cs, EventService *es, CalendarWidget *calendarWidget);
 };
 
 #endif //CALENDARAPP_TOPBAR_H

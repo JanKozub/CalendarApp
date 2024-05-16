@@ -7,14 +7,16 @@
 #include <QBoxLayout>
 #include "../CalendarService/CalendarService.h"
 #include "../NewEventDialog/NewEventDialog.h"
+#include "../EventService/EventService.h"
 
 class CalendarWidget : public QTableWidget {
 private:
     int columns = 7;
     int rows = 5;
-    static void onButtonClick(int dayOfMonth, tm* date);
+    EventService *eventService;
+    void onButtonClick(int dayOfMonth, tm* date);
 public:
-    explicit CalendarWidget(QWidget *parent);
+    explicit CalendarWidget(QWidget *parent, EventService *eventService);
     void setLayoutForMonth(CalendarService *cs);
 };
 

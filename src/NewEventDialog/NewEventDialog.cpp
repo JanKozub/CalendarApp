@@ -1,6 +1,6 @@
 #include "NewEventDialog.h"
 
-NewEventDialog::NewEventDialog(int dayOfMonth, tm *date, bool isDisabled) {
+NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled) : eventService(es) {
     QFrame frame;
     QVBoxLayout layout;
     frame.setLayout(&layout);
@@ -11,32 +11,34 @@ NewEventDialog::NewEventDialog(int dayOfMonth, tm *date, bool isDisabled) {
     topLabel.setAlignment(Qt::AlignCenter);
     layout.addWidget(&topLabel);
 
-    QDateEdit dateEdit;
-    dateEdit.setDisabled(isDisabled);
-    dateEdit.setCalendarPopup(isDisabled);
+    auto *dateEdit = new QDateEdit();
+    dateEdit->setDisabled(isDisabled);
+    dateEdit->setCalendarPopup(isDisabled);
     QDate qDate(1900 + date->tm_year, date->tm_mon, dayOfMonth);
-    dateEdit.setDate(qDate);
-    layout.addWidget(&dateEdit);
+    dateEdit->setDate(qDate);
+    layout.addWidget(dateEdit);
 
     QLabel messageLabel("Message:");
-    QLineEdit messageField;
+    auto *messageField = new QLineEdit();
     QHBoxLayout messageTextField;
     messageTextField.addWidget(&messageLabel);
-    messageTextField.addWidget(&messageField);
+    messageTextField.addWidget(messageField);
     layout.addLayout(&messageTextField);
 
     QLabel priorityLabel("Priority:");
-    QComboBox comboBox;
-    comboBox.addItem("Low");
-    comboBox.addItem("Medium");
-    comboBox.addItem("High");
-    comboBox.setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+    auto comboBox = new QComboBox();
+    comboBox->addItem("Low");
+    comboBox->addItem("Medium");
+    comboBox->addItem("High");
+    comboBox->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
     QHBoxLayout priorityDropList;
     priorityDropList.addWidget(&priorityLabel);
-    priorityDropList.addWidget(&comboBox);
+    priorityDropList.addWidget(comboBox);
     layout.addLayout(&priorityDropList);
 
-    auto *button = new QPushButton("Add Event");
+    auto button = new QPushButton("Add Event");
+    connect(button, &QPushButton::clicked, this,
+            [=]() { createNewEvent(dateEdit->date(), messageField->text(), comboBox->currentText()); });
     layout.addWidget(button);
 
     QVBoxLayout overlay;
@@ -44,4 +46,13 @@ NewEventDialog::NewEventDialog(int dayOfMonth, tm *date, bool isDisabled) {
     this->setLayout(&overlay);
     this->setFixedSize(400, 180);
     this->exec();
+}
+
+void NewEventDialog::createNewEvent(const QDate &date, const QString &msg, const QString &priorityStr) {
+    Priority priority;
+    if (priorityStr == "Low") priority = Priority::LOW;
+    else if (priorityStr == "Medium") priority = Priority::MEDIUM;
+    else priority = Priority::HIGH;
+
+    eventService->addEventToDatabase(Event(date.day(), date.month(), date.year(), msg.toStdString(), priority));
 }
