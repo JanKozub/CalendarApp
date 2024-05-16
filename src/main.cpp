@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     QFile file;
-    QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/src/resources");
+    QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/resources");
     file.setFileName("style.qss");
     file.open(QFile::ReadOnly);
     QString stylesheet = QLatin1String(file.readAll());
