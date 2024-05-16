@@ -6,18 +6,33 @@
 #include "TopBar/TopBar.h"
 #include "QFile"
 #include "QDir"
+#include "Event/Event.h"
+#include "EventService/EventService.h"
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
-    QFile file;
-    QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/resources");
-    file.setFileName("style.qss");
-    file.open(QFile::ReadOnly);
-    QString stylesheet = QLatin1String(file.readAll());
-    app.setStyleSheet(stylesheet);
+    try {
+        QFile file;
+        QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/resources");
+        file.setFileName("style.qss");
+        file.open(QFile::ReadOnly);
+        QString stylesheet = QLatin1String(file.readAll());
+        app.setStyleSheet(stylesheet);
+
+        EventService eventService("events.json");
+//        eventService.addEventToDatabase(Event(0, "test", Priority::LOW));
+    } catch(runtime_error er) {
+        QDialog errorDialog;
+        QLabel label("Loading database failed");
+        QHBoxLayout l;
+        l.addWidget(&label);
+        errorDialog.setLayout(&l);
+        errorDialog.exec();
+        errorDialog.open();
+    }
 
     CalendarService calendarService;
     QWidget mainWindow;

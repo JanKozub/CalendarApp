@@ -7,7 +7,6 @@
 #include "QLabel"
 #include "QComboBox"
 #include "QPushButton"
-#include "QGroupBox"
 #include "QDateEdit"
 
 class NewEventDialog : public QDialog {

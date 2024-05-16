@@ -17,7 +17,18 @@ find_package(Qt6 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(CalendarApp src/main.cpp
+set(BOOST_ROOT "${CMAKE_SOURCE_DIR}/libs/boost_1_85_0")
+
+find_package(Boost REQUIRED)
+
+if(Boost_FOUND)
+    include_directories(${Boost_INCLUDE_DIRS})
+else()
+    message(FATAL_ERROR "Could not find Boost libraries")
+endif()
+
+add_executable(CalendarApp
+        src/main.cpp
         src/CalendarService/CalendarService.cpp
         src/CalendarService/CalendarService.h
         src/CalendarWidget/CalendarWidget.cpp
@@ -27,11 +38,16 @@ add_executable(CalendarApp src/main.cpp
         src/NewEventDialog/NewEventDialog.cpp
         src/NewEventDialog/NewEventDialog.h
         src/Event/Event.cpp
-        src/Event/Event.h)
+        src/Event/Event.h
+        src/EventService/EventService.cpp
+        src/EventService/EventService.h
+        resources/json.hpp
+        src/Event/Priority.cpp
+)
 
 target_link_libraries(CalendarApp
         Qt::Core
         Qt::Gui
         Qt::Widgets
+        ${Boost_LIBRARIES}
 )
-
