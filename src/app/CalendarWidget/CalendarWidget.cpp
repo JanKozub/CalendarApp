@@ -16,10 +16,15 @@ CalendarWidget::CalendarWidget(QWidget *parent) : QTableWidget(parent) {
     this->clearContents();
 }
 
-void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMonthDayOfWeek, int daysInMonth, int prevMonthDays) {
-    int dayCounter = firstDayOfMonthDayOfWeek * -1;
+void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
+    tm *displayedDate = cs->getDisplayedDate();
+    tm *currentDate = cs->getCurrentTime();
+    int dayCounter = cs->getFirstDayOfWeekOfDisplayedMonth() * -1;
+    int currentDayOfMonth = currentDate->tm_mday;
+    int daysInCurrentMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
+    int daysInPrevMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon);
 
-    QHeaderView * verticalHeader = this->verticalHeader();
+    QHeaderView *verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
     bool buttonDisabled;
@@ -29,14 +34,14 @@ void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMont
 
             int label;
             if (dayCounter < 0) {
-                label = prevMonthDays + dayCounter + 1;
+                label = daysInPrevMonth + dayCounter + 1;
                 buttonDisabled = true;
             } else {
-                if (dayCounter <= daysInMonth) {
+                if (dayCounter <= daysInCurrentMonth) {
                     label = dayCounter;
                     buttonDisabled = false;
                 } else {
-                    label = dayCounter - daysInMonth;
+                    label = dayCounter - daysInCurrentMonth;
                     buttonDisabled = true;
                 }
             }
@@ -47,7 +52,7 @@ void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMont
             button->setCursor(Qt::PointingHandCursor);
             connect(button, &QPushButton::clicked, this, &CalendarWidget::onButtonClick);
 
-            if (currentDayOfMonth == dayCounter) {
+            if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon) {
                 button->setObjectName("today");
             }
 
@@ -65,5 +70,5 @@ void CalendarWidget::setLayoutForMonth(int currentDayOfMonth, int firstDayOfMont
 }
 
 void CalendarWidget::onButtonClick() {
-   NewEventDialog dialog;
+    NewEventDialog dialog;
 }

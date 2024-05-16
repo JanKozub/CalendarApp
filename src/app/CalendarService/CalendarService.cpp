@@ -1,18 +1,23 @@
 #include "CalendarService.h"
 
 CalendarService::CalendarService() {
-    initTimestamp = system_clock::now();
-    time_now = system_clock::to_time_t(initTimestamp);
-    local_time = localtime(&time_now);
+    time_point timestamp = system_clock::now();
+    time_t time = system_clock::to_time_t(timestamp);
+    tm *localTime = localtime(&time);
 
-    currentMonth = local_time->tm_mon;
-    currentYear = 1900 + local_time->tm_year;
+    currentTime.tm_mday = localTime->tm_mday;
+    currentTime.tm_mon = localTime->tm_mon;
+    currentTime.tm_year = localTime->tm_year;
+
+    displayedDate.tm_mday = localTime->tm_mday;
+    displayedDate.tm_mon = localTime->tm_mon;
+    displayedDate.tm_year = localTime->tm_year;
 }
 
-int CalendarService::getFirstDayOfMonthDayOfWeek() const { //Returns 0-6 value(day of week of current date)
+int CalendarService::getFirstDayOfWeekOfDisplayedMonth() const { //Returns 0-6 value(day of week of current date)
     tm time = {};
-    time.tm_year = currentYear - 1900;
-    time.tm_mon = currentMonth;
+    time.tm_year = displayedDate.tm_year;
+    time.tm_mon = displayedDate.tm_mon;
     time.tm_mday = 1;
 
     time_t date = mktime(&time);
@@ -22,17 +27,13 @@ int CalendarService::getFirstDayOfMonthDayOfWeek() const { //Returns 0-6 value(d
     return (day == 0) ? 6 : (day - 1);
 }
 
-int CalendarService::getCurrentDayOfMonth() { //Returns current day of month
-    return local_time->tm_mday;
-}
-
 bool isLeapYear(int year) {
     return (year % 4 == 0 && year % 100 != 0) || (year % 400 == 0);
 }
 
 int CalendarService::getNumberOfDaysInMonth(int month) const { //Returns number of days in given month(1-12 format)
     if (month == 2) {
-        if (isLeapYear(currentYear)) {
+        if (isLeapYear(currentTime.tm_year)) {
             return 29;
         } else {
             return 28;
@@ -44,18 +45,18 @@ int CalendarService::getNumberOfDaysInMonth(int month) const { //Returns number 
     }
 }
 
-void CalendarService::setCurrentMonth(int month) {
-    currentMonth = month;
+tm* CalendarService::getCurrentTime() {
+    return &currentTime;
 }
 
-int CalendarService::getCurrentMonth() const {
-    return currentMonth;
+void CalendarService::setDisplayedMonth(int month) {
+    displayedDate.tm_mon = month;
 }
 
-void CalendarService::setCurrentYear(int year) {
-    currentYear = year;
+void CalendarService::setDisplayedYear(int year) {
+    displayedDate.tm_year = year;
 }
 
-int CalendarService::getCurrentYear() const {
-    return currentYear;
+tm* CalendarService::getDisplayedDate() {
+    return &displayedDate;
 }

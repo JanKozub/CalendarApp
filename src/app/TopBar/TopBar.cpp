@@ -38,8 +38,9 @@ TopBar::TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget)
 }
 
 void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
-    int month = calendarService->getCurrentMonth() + value;
-    int year = calendarService->getCurrentYear();
+    tm *date = calendarService->getDisplayedDate();
+    int month = date->tm_mon + value;
+    int year = date->tm_year;
 
     if (month < 0) {
         month = 11;
@@ -48,18 +49,13 @@ void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
         month = 0;
         year++;
     }
-    calendarService->setCurrentMonth(month);
-    calendarService->setCurrentYear(year);
+    calendarService->setDisplayedMonth(month);
+    calendarService->setDisplayedYear(year);
 
-    int daysInMonth = calendarService->getNumberOfDaysInMonth(calendarService->getCurrentMonth() + 1);
-    monthLabel.setText(months[calendarService->getCurrentMonth()]);
-    dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(year));
+    int daysInMonth = calendarService->getNumberOfDaysInMonth(month + 1);
+    monthLabel.setText(months[month]);
+    dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(1900 + year));
 
-    int prevMonthDays = calendarService->getNumberOfDaysInMonth(calendarService->getCurrentMonth());
-
-    if (calendarService->getCurrentMonth() == 0)
-        prevMonthDays = 0;
-
-    calendarWidget->setLayoutForMonth(calendarService->getCurrentDayOfMonth(), calendarService->getFirstDayOfMonthDayOfWeek(), daysInMonth, prevMonthDays);
+    calendarWidget->setLayoutForMonth(calendarService);
 }
 

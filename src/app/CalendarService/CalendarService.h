@@ -2,29 +2,24 @@
 #define CALENDARAPP_CALENDARSERVICE_H
 
 #include "iostream"
-#include "../CalendarWidget/CalendarWidget.h"
 
 using namespace std;
 using namespace chrono;
 
 class CalendarService {
 private:
-    system_clock::time_point initTimestamp;
-    time_t time_now;
-    tm* local_time;
-    int currentMonth;
-    int currentYear;
+    tm currentTime = {}; //Date from user system clock
+    tm displayedDate = {}; //Date that is displayed in app
 public:
     CalendarService();
-    int getFirstDayOfMonthDayOfWeek() const;
-    int getCurrentDayOfMonth();
     int getNumberOfDaysInMonth(int month) const;
 
-    void setCurrentMonth(int month);
-    int getCurrentMonth() const;
+    tm* getDisplayedDate();
+    void setDisplayedMonth(int month);
+    void setDisplayedYear(int year);
+    int getFirstDayOfWeekOfDisplayedMonth() const;
 
-    void setCurrentYear(int year);
-    int getCurrentYear() const;
+    tm* getCurrentTime();
 };
 
 
