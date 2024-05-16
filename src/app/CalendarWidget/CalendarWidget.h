@@ -12,7 +12,7 @@ class CalendarWidget : public QTableWidget {
 private:
     int columns = 7;
     int rows = 5;
-    static void onButtonClick();
+    static void onButtonClick(int dayOfMonth, tm* date);
 public:
     explicit CalendarWidget(QWidget *parent);
     void setLayoutForMonth(CalendarService *cs);

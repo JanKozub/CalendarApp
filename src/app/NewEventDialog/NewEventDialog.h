@@ -8,10 +8,11 @@
 #include "QComboBox"
 #include "QPushButton"
 #include "QGroupBox"
+#include "QDateEdit"
 
 class NewEventDialog : public QDialog {
 public:
-    NewEventDialog();
+    NewEventDialog(int dayOfMonth, tm* date, bool isDisabled);
 };
 
 #endif //CALENDARAPP_NEWEVENTDIALOG_H

@@ -14,7 +14,7 @@ private:
     void setMonth(int value, QLabel &monthLabel, QLabel &dateLabel);
 
 public:
-    explicit TopBar(CalendarService *calendarService, CalendarWidget *calendarWidget);
+    explicit TopBar(CalendarService *cs, CalendarWidget *calendarWidget);
 };
 
 #endif //CALENDARAPP_TOPBAR_H

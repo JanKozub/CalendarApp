@@ -24,7 +24,7 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     int daysInCurrentMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
     int daysInPrevMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon);
 
-    QHeaderView *verticalHeader = this->verticalHeader();
+    QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
     bool buttonDisabled;
@@ -50,14 +50,13 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
             button->setMinimumSize(120, 120);
             button->setDisabled(buttonDisabled);
             button->setCursor(Qt::PointingHandCursor);
-            connect(button, &QPushButton::clicked, this, &CalendarWidget::onButtonClick);
+            connect(button, &QPushButton::clicked, this,
+                    [=]() { CalendarWidget::onButtonClick(label, displayedDate); });
 
-            if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon) {
+            if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon)
                 button->setObjectName("today");
-            }
 
             this->setCellWidget(row, col, button);
-
             dayCounter++;
         }
     }
@@ -69,6 +68,6 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     this->horizontalHeader()->setSectionsClickable(false);
 }
 
-void CalendarWidget::onButtonClick() {
-    NewEventDialog dialog;
+void CalendarWidget::onButtonClick(int dayOfMonth, tm *date) {
+    NewEventDialog dialog(dayOfMonth, date, true);
 }

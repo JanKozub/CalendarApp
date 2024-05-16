@@ -1,7 +1,6 @@
 #include "NewEventDialog.h"
 
-
-NewEventDialog::NewEventDialog() {
+NewEventDialog::NewEventDialog(int dayOfMonth, tm *date, bool isDisabled) {
     QFrame frame;
     QVBoxLayout layout;
     frame.setLayout(&layout);
@@ -11,6 +10,13 @@ NewEventDialog::NewEventDialog() {
     QLabel topLabel("New Event");
     topLabel.setAlignment(Qt::AlignCenter);
     layout.addWidget(&topLabel);
+
+    QDateEdit dateEdit;
+    dateEdit.setDisabled(isDisabled);
+    dateEdit.setCalendarPopup(isDisabled);
+    QDate qDate(1900 + date->tm_year, date->tm_mon, dayOfMonth);
+    dateEdit.setDate(qDate);
+    layout.addWidget(&dateEdit);
 
     QLabel messageLabel("Message:");
     QLineEdit messageField;
@@ -36,6 +42,6 @@ NewEventDialog::NewEventDialog() {
     QVBoxLayout overlay;
     overlay.addWidget(&frame);
     this->setLayout(&overlay);
-    this->setFixedSize(400,180);
+    this->setFixedSize(400, 180);
     this->exec();
 }
