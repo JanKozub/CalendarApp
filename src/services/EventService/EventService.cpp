@@ -8,8 +8,8 @@ void EventService::init() {
     loadEventsFromJson();
 }
 
-vector<Event> *EventService::getEvents() {
-    return &events;
+vector<Event> EventService::getEvents() {
+    return events;
 }
 
 void EventService::addEventToDatabase(const Event &e) {

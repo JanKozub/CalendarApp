@@ -14,7 +14,7 @@ int main(int argc, char *argv[]) {
     try {
         StylesService::setStyleForApp(&app, "style.qss");
         eventService.init();
-    } catch(runtime_error er) {
+    } catch (runtime_error er) {
         ErrorDialog errorDialog("Loading database failed");
         errorDialog.open();
     }

@@ -6,14 +6,17 @@
 #include "QLabel"
 #include "../../services/CalendarService/CalendarService.h"
 #include "../CalendarWidget/CalendarWidget.h"
+#include "../EventsListDialog/EventsListDialog.h"
 #include "../../services/EventService/EventService.h"
 
-class TopBar : public QHBoxLayout{
+class TopBar : public QHBoxLayout {
 private:
     CalendarService *calendarService;
     EventService *eventService;
     CalendarWidget *calendarWidget;
+
     void setMonth(int value, QLabel &monthLabel, QLabel &dateLabel);
+
 public:
     explicit TopBar(CalendarService *cs, EventService *es, CalendarWidget *calendarWidget);
 };

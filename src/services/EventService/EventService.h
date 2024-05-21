@@ -20,7 +20,7 @@ private:
 
 public:
     explicit EventService(string filename);
-    vector<Event> *getEvents();
+    vector<Event> getEvents();
     void init();
 
     void addEventToDatabase(const Event& event);

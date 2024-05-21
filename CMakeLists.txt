@@ -46,6 +46,8 @@ add_executable(CalendarApp
         src/components/ErrorDialog/ErrorDialog.h
         src/services/StylesService/StylesService.cpp
         src/services/StylesService/StylesService.h
+        src/components/EventsListDialog/EventsListDialog.cpp
+        src/components/EventsListDialog/EventsListDialog.h
 )
 
 target_link_libraries(CalendarApp
