@@ -4,8 +4,9 @@
 #include "QHBoxLayout"
 #include "QPushButton"
 #include "QLabel"
-#include "../CalendarService/CalendarService.h"
+#include "../../services/CalendarService/CalendarService.h"
 #include "../CalendarWidget/CalendarWidget.h"
+#include "../../services/EventService/EventService.h"
 
 class TopBar : public QHBoxLayout{
 private:

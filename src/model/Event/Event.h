@@ -2,7 +2,6 @@
 #define CALENDARAPP_EVENT_H
 #include "string"
 #include "../../resources/json.hpp"
-#include "Priority.cpp"
 #include <boost/uuid/uuid.hpp>
 #include <boost/uuid/uuid_generators.hpp>
 #include <boost/uuid/uuid_io.hpp>
@@ -10,6 +9,13 @@
 #include "boost/uuid/uuid.hpp"
 
 class Event {
+public:
+    enum class Priority : int {
+        HIGH = 2,
+        MEDIUM = 1,
+        LOW = 0
+    };
+
 private:
     boost::uuids::uuid id;
     int day{};

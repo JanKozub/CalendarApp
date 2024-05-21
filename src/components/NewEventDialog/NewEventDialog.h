@@ -8,7 +8,7 @@
 #include "QComboBox"
 #include "QPushButton"
 #include "QDateEdit"
-#include "../EventService/EventService.h"
+#include "../../services/EventService/EventService.h"
 
 class NewEventDialog : public QDialog {
 private:

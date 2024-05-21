@@ -2,7 +2,7 @@
 #include "boost/uuid/uuid.hpp"
 
 Event::Event() : id(boost::uuids::random_generator()()), day(0), month(0), year(0),
-                 message(), priority(Priority::LOW) {}
+                 message(), priority(Event::Priority::LOW) {}
 
 Event::Event(int day, int month, int year, std::string message, Priority priority)
         : id(boost::uuids::random_generator()()),
@@ -30,9 +30,9 @@ const std::string &Event::getMessage() const { return message; }
 
 void Event::setMessage(const std::string &message) { Event::message = message; }
 
-Priority Event::getPriority() const { return priority; }
+Event::Priority Event::getPriority() const { return priority; }
 
-void Event::setPriority(Priority priority) { Event::priority = priority; }
+void Event::setPriority(Event::Priority priority) { Event::priority = priority; }
 
 
 void to_json(nlohmann::json &j, const Event &e) {

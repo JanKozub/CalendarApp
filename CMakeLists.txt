@@ -29,20 +29,23 @@ endif()
 
 add_executable(CalendarApp
         src/main.cpp
-        src/CalendarService/CalendarService.cpp
-        src/CalendarService/CalendarService.h
-        src/CalendarWidget/CalendarWidget.cpp
-        src/CalendarWidget/CalendarWidget.h
-        src/TopBar/TopBar.cpp
-        src/TopBar/TopBar.h
-        src/NewEventDialog/NewEventDialog.cpp
-        src/NewEventDialog/NewEventDialog.h
-        src/Event/Event.cpp
-        src/Event/Event.h
-        src/EventService/EventService.cpp
-        src/EventService/EventService.h
+        src/services/CalendarService/CalendarService.cpp
+        src/services/CalendarService/CalendarService.h
+        src/components/CalendarWidget/CalendarWidget.cpp
+        src/components/CalendarWidget/CalendarWidget.h
+        src/components/TopBar/TopBar.cpp
+        src/components/TopBar/TopBar.h
+        src/components/NewEventDialog/NewEventDialog.cpp
+        src/components/NewEventDialog/NewEventDialog.h
+        src/model/Event/Event.cpp
+        src/model/Event/Event.h
+        src/services/EventService/EventService.cpp
+        src/services/EventService/EventService.h
         resources/json.hpp
-        src/Event/Priority.cpp
+        src/components/ErrorDialog/ErrorDialog.cpp
+        src/components/ErrorDialog/ErrorDialog.h
+        src/services/StylesService/StylesService.cpp
+        src/services/StylesService/StylesService.h
 )
 
 target_link_libraries(CalendarApp

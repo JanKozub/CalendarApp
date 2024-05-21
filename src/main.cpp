@@ -1,36 +1,21 @@
 #include <QApplication>
 #include <QGridLayout>
 #include <QMainWindow>
-#include "CalendarService/CalendarService.h"
-#include "CalendarWidget/CalendarWidget.h"
-#include "TopBar/TopBar.h"
-#include "QFile"
-#include "QDir"
-#include "Event/Event.h"
-#include "EventService/EventService.h"
-
-using namespace std;
+#include "services/CalendarService/CalendarService.h"
+#include "components/CalendarWidget/CalendarWidget.h"
+#include "components/TopBar/TopBar.h"
+#include "components/ErrorDialog/ErrorDialog.h"
+#include "services/StylesService/StylesService.h"
 
 int main(int argc, char *argv[]) {
     QApplication app(argc, argv);
 
     EventService eventService("events.json");
     try {
-        QFile file;
-        QDir::setCurrent("/Users/jankozub/Documents/CalendarApp/resources");
-        file.setFileName("style.qss");
-        file.open(QFile::ReadOnly);
-        QString stylesheet = QLatin1String(file.readAll());
-        app.setStyleSheet(stylesheet);
-
+        StylesService::setStyleForApp(&app, "style.qss");
         eventService.init();
     } catch(runtime_error er) {
-        QDialog errorDialog;
-        QLabel label("Loading database failed");
-        QHBoxLayout l;
-        l.addWidget(&label);
-        errorDialog.setLayout(&l);
-        errorDialog.exec();
+        ErrorDialog errorDialog("Loading database failed");
         errorDialog.open();
     }
 

@@ -5,9 +5,9 @@
 #include <QPushButton>
 #include <QHeaderView>
 #include <QBoxLayout>
-#include "../CalendarService/CalendarService.h"
+#include "../../services/CalendarService/CalendarService.h"
 #include "../NewEventDialog/NewEventDialog.h"
-#include "../EventService/EventService.h"
+#include "../../services/EventService/EventService.h"
 
 class CalendarWidget : public QTableWidget {
 private:

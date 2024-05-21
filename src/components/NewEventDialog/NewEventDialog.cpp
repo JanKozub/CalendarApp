@@ -49,10 +49,11 @@ NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool 
 }
 
 void NewEventDialog::createNewEvent(const QDate &date, const QString &msg, const QString &priorityStr) {
-    Priority priority;
-    if (priorityStr == "Low") priority = Priority::LOW;
-    else if (priorityStr == "Medium") priority = Priority::MEDIUM;
-    else priority = Priority::HIGH;
+    Event::Priority priority;
+    if (priorityStr == "Low") priority = Event::Priority::LOW;
+    else if (priorityStr == "Medium") priority = Event::Priority::MEDIUM;
+    else priority = Event::Priority::HIGH;
 
     eventService->addEventToDatabase(Event(date.day(), date.month(), date.year(), msg.toStdString(), priority));
+    close();
 }

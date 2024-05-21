@@ -5,7 +5,7 @@
 #include <fstream>
 #include <iostream>
 #include "../../resources/json.hpp"
-#include "../Event/Event.h"
+#include "../../model/Event/Event.h"
 #include <filesystem>
 
 using namespace std;
