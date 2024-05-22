@@ -43,5 +43,5 @@ target_link_libraries(CalendarApp
         Qt::Core
         Qt::Gui
         Qt::Widgets
-        ${PROJECT_SOURCE_DIR}/lib/libEventService.a
+        ${PROJECT_SOURCE_DIR}/lib/libEventService.dylib
 )

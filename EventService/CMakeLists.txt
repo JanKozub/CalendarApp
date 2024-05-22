@@ -13,11 +13,10 @@ else()
     message(FATAL_ERROR "Could not find Boost libraries")
 endif()
 
-add_library(EventService STATIC
+add_library(EventService SHARED
         EventService.cpp
         Event.cpp
 )
 
-target_link_libraries(EventService
-        ${Boost_LIBRARIES}
-)
+target_include_directories(EventService PUBLIC ${PROJECT_SOURCE_DIR})
+target_link_libraries(EventService ${Boost_LIBRARIES})
