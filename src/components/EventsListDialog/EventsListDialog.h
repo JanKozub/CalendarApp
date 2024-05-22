@@ -6,13 +6,14 @@
 #include <QTableWidget>
 #include <vector>
 #include "../EventTable/EventTable.h"
+#include "../CalendarWidget/CalendarWidget.h"
 #include "EventService.h"
 
 using namespace std;
 
 class EventsListDialog : public QDialog {
 public:
-    explicit EventsListDialog(const vector<EventService::Event> &events);
+    explicit EventsListDialog(EventService *eventService, const vector<EventService::Event> &events);
 };
 
 

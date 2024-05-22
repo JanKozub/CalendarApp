@@ -17,9 +17,9 @@ void EventService::addEventToDatabase(const Event &e) {
     return saveEventsToJson(events);
 }
 
-void EventService::removeEventFromDatabase(Event *target) {
+void EventService::removeEventFromDatabase(Event target) {
     auto it = std::remove_if(events.begin(), events.end(),
-                             [&target](Event &e) { return e.getId() == target->getId(); });
+                             [&target](Event &e) { return e.getId() == target.getId(); });
     if (it != events.end()) {
         events.erase(it, events.end());
         saveEventsToJson(events);

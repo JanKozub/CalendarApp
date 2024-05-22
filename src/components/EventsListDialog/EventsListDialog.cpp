@@ -1,9 +1,9 @@
 #include "EventsListDialog.h"
 
-EventsListDialog::EventsListDialog(const vector<EventService::Event> &events) {
+EventsListDialog::EventsListDialog(EventService *es, const vector<EventService::Event> &events) {
     setWindowTitle("Events");
 
-    EventTable eventTable(this, events);
+    EventTable eventTable(this, es, events);
 
     auto *layout = new QVBoxLayout(this);
     layout->addWidget(&eventTable);

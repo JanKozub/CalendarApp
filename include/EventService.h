@@ -77,7 +77,7 @@ public:
 
     void addEventToDatabase(const Event &event);
 
-    void removeEventFromDatabase(Event *event);
+    void removeEventFromDatabase(Event event);
 
     void loadEventsFromJson();
 };

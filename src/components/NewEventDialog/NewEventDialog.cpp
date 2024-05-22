@@ -42,7 +42,7 @@ NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool 
             [=]() { createNewEvent(dateEdit->date(), messageField->text(), comboBox->currentText()); });
     layout.addWidget(button);
 
-    EventTable eventTable(nullptr, events);
+    EventTable eventTable(nullptr, eventService, events);
     if (isDisabled) layout.addWidget(&eventTable);
 
     QVBoxLayout overlay;
