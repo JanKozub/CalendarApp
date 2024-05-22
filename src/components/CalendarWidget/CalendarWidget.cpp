@@ -25,7 +25,7 @@ void CalendarWidget::setLayoutForMonth() {
     int daysInCurrentMonth = calendarService->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
     int daysInPrevMonth = calendarService->getNumberOfDaysInMonth(displayedDate->tm_mon);
 
-    QHeaderView *verticalHeader = this->verticalHeader();
+    QHeaderView * verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
     vector<EventService::Event> events = eventService->getEvents();
@@ -87,5 +87,7 @@ void CalendarWidget::setLayoutForMonth() {
 
 void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, const vector<EventService::Event> &events) {
     NewEventDialog dialog(eventService, dayOfMonth, date, true, events);
+    connect(&dialog, &QDialog::destroyed, this,
+            [this]() { this->setLayoutForMonth(); });
     setLayoutForMonth();
 }

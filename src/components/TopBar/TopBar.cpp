@@ -13,14 +13,21 @@ TopBar::TopBar(CalendarService *cs, EventService *es, CalendarWidget *cw) {
     addEventButton->setStyleSheet("background-color: #585859;");
     addEventButton->setFixedWidth(150);
     connect(addEventButton, &QPushButton::clicked, this,
-            [=]() { NewEventDialog dialog(eventService, 1, cs->getDisplayedDate(), false, *new vector<EventService::Event>{}); });
+            [=]() {
+                NewEventDialog dialog(eventService, 1, cs->getDisplayedDate(), false,
+                                      *new vector<EventService::Event>{});
+            });
     this->addWidget(addEventButton);
 
     auto *showEventsButton = new QPushButton("Show Events");
     showEventsButton->setStyleSheet("background-color: #585859;");
     showEventsButton->setFixedWidth(150);
     connect(showEventsButton, &QPushButton::clicked, this,
-            [=]() { EventsListDialog eventsListDialog(eventService, eventService->getEvents()); });
+            [=]() {
+                EventsListDialog eventsListDialog(eventService, eventService->getEvents());
+                connect(&eventsListDialog, &QDialog::destroyed, this,
+                        [this]() { calendarWidget->setLayoutForMonth(); });
+            });
     this->addWidget(showEventsButton);
 
     auto *monthLabel = new QLabel();
