@@ -48,6 +48,8 @@ add_executable(CalendarApp
         src/services/StylesService/StylesService.h
         src/components/EventsListDialog/EventsListDialog.cpp
         src/components/EventsListDialog/EventsListDialog.h
+        src/components/EventTable/EventTable.cpp
+        src/components/EventTable/EventTable.h
 )
 
 target_link_libraries(CalendarApp

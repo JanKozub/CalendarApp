@@ -30,7 +30,7 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     vector<Event> events = eventService->getEvents();
 
     bool buttonDisabled;
-    int eventCounter, label;
+    int label;
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             if (dayCounter == 0) dayCounter = 1;
@@ -48,25 +48,25 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
                 }
             }
 
-            eventCounter = 0;
+            vector<Event> onDayEvents;
             for (const auto &event: events)
-                if (event.getDay() == label) eventCounter++;
+                if (event.getDay() == label) onDayEvents.push_back(event);
 
             QString buttonLabel = QString::number(label);
-            if (eventCounter > 0)
-                buttonLabel = QString("%1(%2)").arg(QString::number(label)).arg(eventCounter);
+            if (!onDayEvents.empty())
+                buttonLabel = QString("%1(%2)").arg(QString::number(label)).arg(onDayEvents.size());
 
             auto *button = new QPushButton(buttonLabel);
             button->setMinimumSize(120, 120);
             button->setDisabled(buttonDisabled);
             button->setCursor(Qt::PointingHandCursor);
             connect(button, &QPushButton::clicked, this,
-                    [=]() { CalendarWidget::onButtonClick(label, displayedDate); });
+                    [=]() { CalendarWidget::onButtonClick(label, displayedDate, onDayEvents); });
 
             if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon)
                 button->setObjectName("today");
 
-            if (eventCounter > 0 && !buttonDisabled)
+            if (!onDayEvents.empty() && !buttonDisabled)
                 button->setObjectName("event");
 
             this->setCellWidget(row, col, button);
@@ -81,6 +81,6 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     this->horizontalHeader()->setSectionsClickable(false);
 }
 
-void CalendarWidget::onButtonClick(int dayOfMonth, tm *date) {
-    NewEventDialog dialog(eventService, dayOfMonth, date, true);
+void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, vector<Event> events) {
+    NewEventDialog dialog(eventService, dayOfMonth, date, true, events);
 }

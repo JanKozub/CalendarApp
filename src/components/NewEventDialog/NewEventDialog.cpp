@@ -1,6 +1,7 @@
 #include "NewEventDialog.h"
 
-NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled) : eventService(es) {
+NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled, const vector<Event> &events)
+        : eventService(es) {
     QFrame frame;
     QVBoxLayout layout;
     frame.setLayout(&layout);
@@ -41,10 +42,13 @@ NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool 
             [=]() { createNewEvent(dateEdit->date(), messageField->text(), comboBox->currentText()); });
     layout.addWidget(button);
 
+    EventTable eventTable(this, events);
+    if (isDisabled) layout.addWidget(&eventTable);
+
     QVBoxLayout overlay;
     overlay.addWidget(&frame);
     this->setLayout(&overlay);
-    this->setFixedSize(400, 180);
+    this->setFixedSize(400, 400);
     this->exec();
 }
 

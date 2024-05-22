@@ -14,7 +14,7 @@ private:
     int columns = 7;
     int rows = 5;
     EventService *eventService;
-    void onButtonClick(int dayOfMonth, tm* date);
+    void onButtonClick(int dayOfMonth, tm* date, vector<Event> events);
 public:
     explicit CalendarWidget(QWidget *parent, EventService *eventService);
     void setLayoutForMonth(CalendarService *cs);
