@@ -13,6 +13,10 @@ QPushButton:pressed {
     border: 2px solid #DC0922;
 }
 
+#event {
+    border: 1px solid lightblue;
+}
+
 QHeaderView::section {
     background-color: #585859;
 }

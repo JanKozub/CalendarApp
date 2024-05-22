@@ -24,15 +24,17 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     int daysInCurrentMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
     int daysInPrevMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon);
 
-    QHeaderView * verticalHeader = this->verticalHeader();
+    QHeaderView *verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
+    vector<Event> events = eventService->getEvents();
+
     bool buttonDisabled;
+    int eventCounter, label;
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col < columns; ++col) {
             if (dayCounter == 0) dayCounter = 1;
 
-            int label;
             if (dayCounter < 0) {
                 label = daysInPrevMonth + dayCounter + 1;
                 buttonDisabled = true;
@@ -46,7 +48,15 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
                 }
             }
 
-            auto *button = new QPushButton(QString("%1").arg(label));
+            eventCounter = 0;
+            for (const auto &event: events)
+                if (event.getDay() == label) eventCounter++;
+
+            QString buttonLabel = QString::number(label);
+            if (eventCounter > 0)
+                buttonLabel = QString("%1(%2)").arg(QString::number(label)).arg(eventCounter);
+
+            auto *button = new QPushButton(buttonLabel);
             button->setMinimumSize(120, 120);
             button->setDisabled(buttonDisabled);
             button->setCursor(Qt::PointingHandCursor);
@@ -55,6 +65,9 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
 
             if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon)
                 button->setObjectName("today");
+
+            if (eventCounter > 0 && !buttonDisabled)
+                button->setObjectName("event");
 
             this->setCellWidget(row, col, button);
             dayCounter++;
