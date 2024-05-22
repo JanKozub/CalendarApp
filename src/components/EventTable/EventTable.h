@@ -4,13 +4,13 @@
 #include "QTableWidget"
 #include "QHeaderView"
 #include "vector"
-#include "../../model/Event/Event.h"
+#include "EventService.h"
 
 using namespace std;
 
 class EventTable : public QTableWidget {
 public:
-    explicit EventTable(QWidget *parent, const vector<Event>& events);
+    explicit EventTable(QWidget *parent, const vector<EventService::Event>& events);
 };
 
 #endif //CALENDARAPP_EVENTTABLE_H

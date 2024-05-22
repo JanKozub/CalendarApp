@@ -1,6 +1,6 @@
 #include "EventsListDialog.h"
 
-EventsListDialog::EventsListDialog(const vector<Event> &events) {
+EventsListDialog::EventsListDialog(const vector<EventService::Event> &events) {
     setWindowTitle("Events");
 
     EventTable eventTable(this, events);

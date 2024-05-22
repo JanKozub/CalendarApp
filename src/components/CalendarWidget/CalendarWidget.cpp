@@ -27,7 +27,7 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     QHeaderView *verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
 
-    vector<Event> events = eventService->getEvents();
+    vector<EventService::Event> events = eventService->getEvents();
 
     bool buttonDisabled;
     int label;
@@ -48,7 +48,7 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
                 }
             }
 
-            vector<Event> onDayEvents;
+            vector<EventService::Event> onDayEvents;
             for (const auto &event: events)
                 if (event.getDay() == label) onDayEvents.push_back(event);
 
@@ -81,6 +81,6 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     this->horizontalHeader()->setSectionsClickable(false);
 }
 
-void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, vector<Event> events) {
+void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, vector<EventService::Event> events) {
     NewEventDialog dialog(eventService, dayOfMonth, date, true, events);
 }

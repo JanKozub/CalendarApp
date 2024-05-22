@@ -7,7 +7,7 @@
 #include "../../services/CalendarService/CalendarService.h"
 #include "../CalendarWidget/CalendarWidget.h"
 #include "../EventsListDialog/EventsListDialog.h"
-#include "../../services/EventService/EventService.h"
+#include "EventService.h"
 
 class TopBar : public QHBoxLayout {
 private:

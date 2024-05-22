@@ -5,14 +5,14 @@
 #include "QVBoxLayout"
 #include <QTableWidget>
 #include <vector>
-#include "../../model/Event/Event.h"
 #include "../EventTable/EventTable.h"
+#include "EventService.h"
 
 using namespace std;
 
 class EventsListDialog : public QDialog {
 public:
-    explicit EventsListDialog(const vector<Event> &events);
+    explicit EventsListDialog(const vector<EventService::Event> &events);
 };
 
 

@@ -1,6 +1,6 @@
 #include "EventTable.h"
 
-EventTable::EventTable(QWidget *parent, const vector<Event>& events) : QTableWidget(parent) {
+EventTable::EventTable(QWidget *parent, const vector<EventService::Event>& events) : QTableWidget(parent) {
     setRowCount(events.size());
     setColumnCount(3);
     setHorizontalHeaderLabels({"Date", "Message", "Priority"});
@@ -11,9 +11,9 @@ EventTable::EventTable(QWidget *parent, const vector<Event>& events) : QTableWid
                                                   .arg(events[i].getMonth())
                                                   .arg(events[i].getYear()));
         QString priority;
-        if (events[i].getPriority() == Event::Priority::LOW)
+        if (events[i].getPriority() == EventService::Event::Priority::LOW)
             priority = "Low";
-        else if (events[i].getPriority() == Event::Priority::MEDIUM)
+        else if (events[i].getPriority() == EventService::Event::Priority::MEDIUM)
             priority = "Medium";
         else
             priority = "High";

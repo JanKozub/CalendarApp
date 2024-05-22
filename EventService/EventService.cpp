@@ -8,7 +8,7 @@ void EventService::init() {
     loadEventsFromJson();
 }
 
-vector<Event> EventService::getEvents() {
+vector<EventService::Event> EventService::getEvents() {
     return events;
 }
 
