@@ -66,6 +66,6 @@ void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
     monthLabel.setText(months[month]);
     dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(1900 + year));
 
-    calendarWidget->setLayoutForMonth(calendarService);
+    calendarWidget->setLayoutForMonth();
 }
 

@@ -13,11 +13,12 @@ class CalendarWidget : public QTableWidget {
 private:
     int columns = 7;
     int rows = 5;
+    CalendarService *calendarService;
     EventService *eventService;
-    void onButtonClick(int dayOfMonth, tm* date, vector<EventService::Event> events);
+    void onButtonClick(int dayOfMonth, tm* date, const vector<EventService::Event>& events);
 public:
-    explicit CalendarWidget(QWidget *parent, EventService *eventService);
-    void setLayoutForMonth(CalendarService *cs);
+    explicit CalendarWidget(QWidget *parent, CalendarService *calendarService, EventService *eventService);
+    void setLayoutForMonth();
 };
 
 

@@ -2,7 +2,8 @@
 
 const char *daysNames[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
-CalendarWidget::CalendarWidget(QWidget *parent, EventService *es) : QTableWidget(parent), eventService(es) {
+CalendarWidget::CalendarWidget(QWidget *parent, CalendarService *cs, EventService *es)
+        : QTableWidget(parent), calendarService(cs), eventService(es) {
     this->setColumnCount(columns);
     this->setRowCount(rows);
 
@@ -16,13 +17,13 @@ CalendarWidget::CalendarWidget(QWidget *parent, EventService *es) : QTableWidget
     this->clearContents();
 }
 
-void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
-    tm *displayedDate = cs->getDisplayedDate();
-    tm *currentDate = cs->getCurrentTime();
-    int dayCounter = cs->getFirstDayOfWeekOfDisplayedMonth() * -1;
+void CalendarWidget::setLayoutForMonth() {
+    tm *displayedDate = calendarService->getDisplayedDate();
+    tm *currentDate = calendarService->getCurrentTime();
+    int dayCounter = calendarService->getFirstDayOfWeekOfDisplayedMonth() * -1;
     int currentDayOfMonth = currentDate->tm_mday;
-    int daysInCurrentMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
-    int daysInPrevMonth = cs->getNumberOfDaysInMonth(displayedDate->tm_mon);
+    int daysInCurrentMonth = calendarService->getNumberOfDaysInMonth(displayedDate->tm_mon + 1);
+    int daysInPrevMonth = calendarService->getNumberOfDaysInMonth(displayedDate->tm_mon);
 
     QHeaderView *verticalHeader = this->verticalHeader();
     verticalHeader->setVisible(false);
@@ -49,8 +50,11 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
             }
 
             vector<EventService::Event> onDayEvents;
-            for (const auto &event: events)
-                if (event.getDay() == label) onDayEvents.push_back(event);
+            for (const auto &e: events)
+                if (e.getDay() == label && displayedDate->tm_mon == e.getMonth() &&
+                    displayedDate->tm_year + 1900 == e.getYear()) {
+                    onDayEvents.push_back(e);
+                }
 
             QString buttonLabel = QString::number(label);
             if (!onDayEvents.empty())
@@ -63,11 +67,11 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
             connect(button, &QPushButton::clicked, this,
                     [=]() { CalendarWidget::onButtonClick(label, displayedDate, onDayEvents); });
 
-            if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon)
-                button->setObjectName("today");
-
             if (!onDayEvents.empty() && !buttonDisabled)
                 button->setObjectName("event");
+
+            if (currentDayOfMonth == dayCounter && displayedDate->tm_mon == currentDate->tm_mon)
+                button->setObjectName("today");
 
             this->setCellWidget(row, col, button);
             dayCounter++;
@@ -81,6 +85,7 @@ void CalendarWidget::setLayoutForMonth(CalendarService *cs) {
     this->horizontalHeader()->setSectionsClickable(false);
 }
 
-void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, vector<EventService::Event> events) {
+void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, const vector<EventService::Event> &events) {
     NewEventDialog dialog(eventService, dayOfMonth, date, true, events);
+    setLayoutForMonth();
 }

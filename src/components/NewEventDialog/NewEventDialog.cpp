@@ -1,7 +1,7 @@
 #include "NewEventDialog.h"
 
-NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled, const vector<EventService::Event> &events)
-        : eventService(es) {
+NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled,
+                               const vector<EventService::Event> &events) : eventService(es) {
     QFrame frame;
     QVBoxLayout layout;
     frame.setLayout(&layout);
@@ -42,7 +42,7 @@ NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool 
             [=]() { createNewEvent(dateEdit->date(), messageField->text(), comboBox->currentText()); });
     layout.addWidget(button);
 
-    EventTable eventTable(this, events);
+    EventTable eventTable(nullptr, events);
     if (isDisabled) layout.addWidget(&eventTable);
 
     QVBoxLayout overlay;
@@ -58,6 +58,7 @@ void NewEventDialog::createNewEvent(const QDate &date, const QString &msg, const
     else if (priorityStr == "Medium") priority = EventService::Event::Priority::MEDIUM;
     else priority = EventService::Event::Priority::HIGH;
 
-    eventService->addEventToDatabase(EventService::Event(date.day(), date.month(), date.year(), msg.toStdString(), priority));
+    eventService->addEventToDatabase(EventService::
+                                     Event(date.day(), date.month(), date.year(), msg.toStdString(), priority));
     close();
 }
