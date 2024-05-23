@@ -22,7 +22,7 @@ NewEventDialog::NewEventDialog(CalendarWidget *cw, EventService *es, int dayOfMo
     auto *dateEdit = new QDateEdit();
     dateEdit->setDisabled(isDisabled);
     dateEdit->setCalendarPopup(isDisabled);
-    QDate qDate(1900 + date->tm_year, date->tm_mon, dayOfMonth);
+    QDate qDate(1900 + date->tm_year, date->tm_mon + 1, dayOfMonth);
     dateEdit->setDate(qDate);
     layout.addWidget(dateEdit);
 
@@ -66,6 +66,6 @@ void NewEventDialog::createNewEvent(const QDate &date, const QString &msg, const
     else priority = EventService::Event::Priority::HIGH;
 
     eventService->addEventToDatabase(EventService::
-                                     Event(date.day(), date.month(), date.year(), msg.toStdString(), priority));
+                                     Event(date.day(), date.month() - 1, date.year(), msg.toStdString(), priority));
     close();
 }
