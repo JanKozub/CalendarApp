@@ -1,6 +1,13 @@
 #include "NewEventDialog.h"
+#include "../EventTable/EventTable.h"
+#include "QLineEdit"
+#include "QBoxLayout"
+#include "QLabel"
+#include "QComboBox"
+#include "QPushButton"
+#include "QDateEdit"
 
-NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool isDisabled,
+NewEventDialog::NewEventDialog(CalendarWidget *cw, EventService *es, int dayOfMonth, tm *date, bool isDisabled,
                                const vector<EventService::Event> &events) : eventService(es) {
     QFrame frame;
     QVBoxLayout layout;
@@ -42,7 +49,7 @@ NewEventDialog::NewEventDialog(EventService *es, int dayOfMonth, tm *date, bool 
             [=]() { createNewEvent(dateEdit->date(), messageField->text(), comboBox->currentText()); });
     layout.addWidget(button);
 
-    EventTable eventTable(nullptr, eventService, events);
+    EventTable eventTable(nullptr, cw, eventService, events);
     if (isDisabled) layout.addWidget(&eventTable);
 
     QVBoxLayout overlay;

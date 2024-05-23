@@ -1,4 +1,8 @@
 #include "CalendarWidget.h"
+#include "../NewEventDialog/NewEventDialog.h"
+#include <QPushButton>
+#include <QHeaderView>
+#include <QBoxLayout>
 
 const char *daysNames[] = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
 
@@ -17,7 +21,7 @@ CalendarWidget::CalendarWidget(QWidget *parent, CalendarService *cs, EventServic
     this->clearContents();
 }
 
-void CalendarWidget::setLayoutForMonth() {
+void CalendarWidget::refreshCalendarLayout() {
     tm *displayedDate = calendarService->getDisplayedDate();
     tm *currentDate = calendarService->getCurrentTime();
     int dayCounter = calendarService->getFirstDayOfWeekOfDisplayedMonth() * -1;
@@ -86,8 +90,6 @@ void CalendarWidget::setLayoutForMonth() {
 }
 
 void CalendarWidget::onButtonClick(int dayOfMonth, tm *date, const vector<EventService::Event> &events) {
-    NewEventDialog dialog(eventService, dayOfMonth, date, true, events);
-    connect(&dialog, &QDialog::destroyed, this,
-            [this]() { this->setLayoutForMonth(); });
-    setLayoutForMonth();
+    NewEventDialog dialog(this, eventService, dayOfMonth, date, true, events);
+    refreshCalendarLayout();
 }

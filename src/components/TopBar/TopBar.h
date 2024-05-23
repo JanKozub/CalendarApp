@@ -6,7 +6,6 @@
 #include "QLabel"
 #include "../../services/CalendarService/CalendarService.h"
 #include "../CalendarWidget/CalendarWidget.h"
-#include "../EventsListDialog/EventsListDialog.h"
 #include "EventService.h"
 
 class TopBar : public QHBoxLayout {

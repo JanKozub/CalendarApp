@@ -1,4 +1,6 @@
 #include "TopBar.h"
+#include "../NewEventDialog/NewEventDialog.h"
+#include "../EventsListDialog/EventsListDialog.h"
 
 const char *months[] = {"January", "Febuary", "March", "April",
                         "May", "June", "July", "August",
@@ -14,7 +16,7 @@ TopBar::TopBar(CalendarService *cs, EventService *es, CalendarWidget *cw) {
     addEventButton->setFixedWidth(150);
     connect(addEventButton, &QPushButton::clicked, this,
             [=]() {
-                NewEventDialog dialog(eventService, 1, cs->getDisplayedDate(), false,
+                NewEventDialog dialog(calendarWidget, eventService, 1, cs->getDisplayedDate(), false,
                                       *new vector<EventService::Event>{});
             });
     this->addWidget(addEventButton);
@@ -24,9 +26,9 @@ TopBar::TopBar(CalendarService *cs, EventService *es, CalendarWidget *cw) {
     showEventsButton->setFixedWidth(150);
     connect(showEventsButton, &QPushButton::clicked, this,
             [=]() {
-                EventsListDialog eventsListDialog(eventService, eventService->getEvents());
+                EventsListDialog eventsListDialog(calendarWidget, eventService, eventService->getEvents());
                 connect(&eventsListDialog, &QDialog::destroyed, this,
-                        [this]() { calendarWidget->setLayoutForMonth(); });
+                        [this]() { calendarWidget->refreshCalendarLayout(); });
             });
     this->addWidget(showEventsButton);
 
@@ -73,6 +75,6 @@ void TopBar::setMonth(int value, QLabel &monthLabel, QLabel &dateLabel) {
     monthLabel.setText(months[month]);
     dateLabel.setText(QString("1-%1.%2.%3").arg(daysInMonth).arg(month + 1).arg(1900 + year));
 
-    calendarWidget->setLayoutForMonth();
+    calendarWidget->refreshCalendarLayout();
 }
 

@@ -1,9 +1,9 @@
 #include "EventTable.h"
+#include "QHeaderView"
+#include "QPushButton"
 
-#include <utility>
-
-EventTable::EventTable(QWidget *parent, EventService *es, const vector<EventService::Event> &events)
-        : QTableWidget(parent), eventService(es) {
+EventTable::EventTable(QWidget *parent, CalendarWidget *cw, EventService *es, const vector<EventService::Event> &events)
+        : QTableWidget(parent), calendarWidget(cw), eventService(es) {
     setRowCount(static_cast<int>(events.size()));
     setColumnCount(4);
     setHorizontalHeaderLabels({"Date", "Message", "Priority", "Delete"});
@@ -49,6 +49,7 @@ void EventTable::onDelete(vector<EventService::Event> events, EventService::Even
     if (it != events.end()) events.erase(it);
 
     eventService->removeEventFromDatabase(std::move(event));
+    calendarWidget->refreshCalendarLayout();
 
     updateTable(events);
 }
